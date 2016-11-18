@@ -1,7 +1,7 @@
 {
-  "name": "ethreal-id",
+  "name": "ethrreal-id",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
@@ -33,5 +33,11 @@
     "url": "git://github.com/anonymous node/sails user/ethreal-id.git"
   },
   "author": "anonymous node/sails user",
-  "license": ""
+  "license": "",
+  "jspm": {
+    "dependencies": {},
+    "devDependencies": {
+      "typescript": "npm:typescript@^2.0.7"
+    }
+  }
 }
