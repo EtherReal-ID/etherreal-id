@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "aurelia-api": "^3.0.0",
+    "aurelia-configuration": "^1.0.14",
     "ejs": "2.3.4",
     "grunt": "1.0.1",
     "grunt-contrib-clean": "1.0.0",
