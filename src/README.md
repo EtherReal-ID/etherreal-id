@@ -9,8 +9,10 @@ sudo apt-get install npm
 - npm install sails -g
 - cd etherreal-id.git/src
 - npm install sails-hook-typescript
+- npm install
 - jspm init
 - jspm install -y
+
 
 # run
 - sails lift

@@ -7,9 +7,9 @@ System.register("app", [], function(exports_1, context_1) {
         execute: function() {
             App = (function () {
                 function App() {
-                    this.heading = 'Welcome to the Aurelia Navigation App!';
-                    this.firstName = 'John';
-                    this.lastName = 'Doe';
+                    this.heading = 'Welcome to etherReal ID!';
+                    this.firstName = 'Ether';
+                    this.lastName = 'Real';
                 }
                 Object.defineProperty(App.prototype, "fullName", {
                     get: function () {
