@@ -10,6 +10,7 @@ System.config({
 
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.1",
+    "aurelia-api": "npm:aurelia-api@3.0.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.1",
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.1",
     "aurelia-framework": "npm:aurelia-framework@1.0.7",
@@ -112,6 +113,13 @@ System.config({
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
       "aurelia-pal": "npm:aurelia-pal@1.0.0",
       "aurelia-templating": "npm:aurelia-templating@1.1.2"
+    },
+    "npm:aurelia-api@3.0.0": {
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+      "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.1",
+      "aurelia-framework": "npm:aurelia-framework@1.0.7",
+      "aurelia-path": "npm:aurelia-path@1.1.1",
+      "extend": "npm:extend@3.0.0"
     },
     "npm:aurelia-binding@1.0.9": {
       "aurelia-logging": "npm:aurelia-logging@1.1.1",
