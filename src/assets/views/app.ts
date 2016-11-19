@@ -1,8 +1,10 @@
+
+
 export class App {
     constructor() {
-        this.heading = 'Welcome to etherReal ID';
-        this.firstName = 'Ether';
-        this.lastName = 'Real';
+        this.heading = 'Welcome to the Aurelia Navigation App!';
+        this.firstName = 'John';
+        this.lastName = 'Doe';
     }
     get fullName() {
         return `${this.firstName} ${this.lastName}`;
