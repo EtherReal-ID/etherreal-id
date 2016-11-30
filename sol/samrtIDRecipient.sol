@@ -1,8 +1,7 @@
-contract idRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData); }
+contract smartIDRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData); }
 
 
-
-contract etherReal_Smart_ID {
+contract Ethereal_Smart_ID {
 
 
     address validating;
@@ -13,24 +12,32 @@ contract etherReal_Smart_ID {
     address waitingWallet;
 
     address[] public validators;
+    uint[] public validatorsWhat;
     address[] public validated;
+    uint[] public validatedWhat;
     address[] public wallets;
     address[] public family;
+    uint public lastImageUpdate;  //block number
+    uint public lastCheck;  //block number
 
     string public standard = 'EtherRe.al 0.1';
     string public name;
     string public id;
     string public passport;
+    uint public blackflags;
+    uint public rating;
 
     mapping (address => uint256) public balanceOf;
     mapping (address => uint256) public allowance;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    function etherReal_Smart_ID(address validator,string name,string id,string passport){
+    function Ethereal_Smart_ID(address validator,string name,string id,string passport){
       validators.push(validator);
       pretorian=Pretorian(msg.sender);
       pa=msg.sender;
+      blackflags=0;
+      rating=999999990; //negative number = -10
     }
 
     function Validate(string name,string id,string passport){
@@ -116,7 +123,7 @@ contract etherReal_Smart_ID {
     function approveAndCall(address _spender, uint256 _value, bytes _extraData)
         returns (bool success) {
         if(msg.sender!=smartIDowner)throw;
-        idRecipient spender = idRecipient(_spender);
+        smartIDRecipient spender = smartIDRecipient(_spender);
         if (approve(_spender, _value)) {
             spender.receiveApproval(smartIDowner, _value, this, _extraData);
             return true;
