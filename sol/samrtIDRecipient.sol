@@ -24,11 +24,14 @@ contract Ethereal_Smart_ID {
     string public name;
     string public id;
     string public passport;
+    uint public birthday;
+    string public location;
     uint public blackflags;
-    uint public rating;
+    uint rating;
 
     mapping (address => uint256) public balanceOf;
     mapping (address => uint256) public allowance;
+    uint[] public allowances;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
@@ -97,9 +100,12 @@ contract Ethereal_Smart_ID {
       return (wallets[w],wallets.length);
     }
 
-    function getInfo() constant returns(address,string,string,string){
-      return(smartIDowner,name,id,passport);
+    function getInfo() constant returns(address,string,uint,string,uint,uin){
+      
+      return(smartIDowner,name,birthday,location,rating-((block.number-lastCheck)/60000),blackflags);
     }
+
+
 
 
     /* Send coins */
@@ -115,7 +121,8 @@ contract Ethereal_Smart_ID {
     function approve(address _spender, uint256 _value)
         returns (bool success) {
         if(msg.sender!=smartIDowner)throw;
-        allowance[_spender] = _value;
+        allowance[_spender] += _value;
+        allowances.push(_spender);
         return true;
     }
 
@@ -132,11 +139,9 @@ contract Ethereal_Smart_ID {
 
     /* A contract attempts to get the coins */
     function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {
-        //if(msg.sender!=smartIDowner)throw;
         if (balanceOf[smartIDowner] < _value) throw;                 // Check if the smartIDowner has enough
-        //if (balanceOf[_to] + _value < balanceOf[_to]) throw;  // Check for overflows
-        if (_value > allowance[msg.sender]) throw;   // Check allowance
-        balanceOf[smartIDowner] -= _value;                          // Subtract from the smartIDowner
+        if (_value > allowance[msg.sender]) throw;                   // Check allowance
+        balanceOf[smartIDowner] -= _value;                           // Subtract from the smartIDowner
         if(!(_to.send(_value)))throw;
         allowance[msg.sender] -= _value;
         Transfer(smartIDowner, _to, _value);
@@ -145,7 +150,7 @@ contract Ethereal_Smart_ID {
 
 
     /* This unnamed function is called whenever someone tries to send ether to it */
-    function () {
+    function () payable{
         balanceOf[smartIDowner]+=msg.value;
         Transfer(msg.sender, smartIDowner, msg.value);
     }
