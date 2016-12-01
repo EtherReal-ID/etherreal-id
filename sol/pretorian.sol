@@ -4,6 +4,7 @@
 //    strictly alfa!!!
 //
 
+pragma solidity ^0.4.6;
 
 contract Pretorian {
 
@@ -25,25 +26,25 @@ function Pretorian(string name,string id,string passport){
    rootAddress=new Ethereal_Smart_ID(msg.sender,name,id,passport);
    isSmartID[rootAddress]=true;
    smartIDnames[rootAddress]=name;
-   smartIDid[rootAddress]=sha3(id);
-   smartIDidCheck[sha3(id)]=true;
-   smartIDpassport[rootAddress]=sha3(passport);
-   smartIDpassportCheck[sha3(passport)]=true;
+   smartIDid[rootAddress]=id;
+   smartIDidCheck[id]=true;
+   smartIDpassport[rootAddress]=passport;
+   smartIDpassportCheck[passport]=true;
    rootOwner=msg.sender;
 }
 
 function registerSmartID(string name,string id,string passport) returns (bool){
 if(!isSmartID[msg.sender])throw;
-if(smartIDidCheck[sha3(id)])throw;
-if(smartIDpassportCheck[sha3(passport)])throw;
+if(smartIDidCheck[id])throw;
+if(smartIDpassportCheck[passport])throw;
 
    address smartIDaddr=new Ethereal_Smart_ID(msg.sender,name,id,passport);
    isSmartID[smartIDaddr]=true;
    smartIDnames[smartIDaddr]=name;
-   smartIDnames[smartIDaddr]=sha3(id);
-   smartIDidCheck[sha3(id)]=true;
-   smartIDid[smartIDaddr]=sha3(passport)
-   smartIDpassportCheck[sha3(passport)]=true;
+   smartIDnames[smartIDaddr]=id;
+   smartIDidCheck[id]=true;
+   smartIDid[smartIDaddr]=passport;
+   smartIDpassportCheck[passport]=true;
 
 }
 
@@ -74,4 +75,3 @@ function WHOIS(address a)constant returns(bool,string,string,string){
 
 
 }
-
