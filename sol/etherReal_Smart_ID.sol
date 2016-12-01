@@ -1,8 +1,8 @@
 contract smartIDRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData); }
 
-
 contract Ethereal_Smart_ID {
 
+    AddressReg popa;
     Ethereal_Smart_ID remote;
     address validating;
     address public smartIDowner;
@@ -33,6 +33,7 @@ contract Ethereal_Smart_ID {
 
     bool public checkemail;
     bool public checkaddress;
+    bool public ispopa;     //consensys proof of physical address
     bool public checkimage;
     uint public checkimageamount;
 
@@ -45,9 +46,11 @@ contract Ethereal_Smart_ID {
     function Ethereal_Smart_ID(address validator,string name,string id,string passport){
       validators.push(validator);
       pretorian=Pretorian(msg.sender);
+      popa=AddressReg(0xbad661c5a1970342ade69857689738b6c8d9da51);
       pa=msg.sender;
       blackflags=0;
       rating=999999990; //negative number = -10
+      ispopa=false;
     }
 
     function Validate(string name,string id,string passport){
@@ -93,6 +96,13 @@ contract Ethereal_Smart_ID {
          wallets[i]=wallets[wallets.length-1];
          wallets[wallets.length-1]=0x0;
       }
+    }
+    
+    
+    //consensys proof of physical address
+    function checkpopa(){    
+    if(!popa.hasPhysicalAddress(this))throw;
+    ispopa=true;
     }
 
     function verifyAddress(address a,string addr){
@@ -211,4 +221,35 @@ contract Ethereal_Smart_ID {
         balanceOf[smartIDowner]+=msg.value;
         Transfer(msg.sender, smartIDowner, msg.value);
     }
+}
+
+contract AddressReg {
+
+        address public owner;
+
+        function setOwner(address _owner) {
+                if (msg.sender == owner)
+                        owner = _owner;
+        }
+
+        function AddressReg() {
+                owner = msg.sender;
+        }
+
+        mapping(address => bool) isVerifiedMap;
+
+        function verify(address addr) {
+                if (msg.sender == owner)
+                        isVerifiedMap[addr] = true;
+        }
+
+        function deverify(address addr) {
+                if (msg.sender == owner)
+                        isVerifiedMap[addr] = false;
+        }
+
+        function hasPhysicalAddress(address addr) constant returns(bool) {
+                return isVerifiedMap[addr];
+        }
+
 }
