@@ -26,7 +26,7 @@ contract Ethereal_Smart_ID {
     string public passport;
     string public email;
     uint public birthday;
-    string public address;
+    string public physicaladdress;
     string public location;
     uint public blackflags;
     uint rating; //depends on action
@@ -98,17 +98,17 @@ contract Ethereal_Smart_ID {
     function verifyAddress(address a,string addr){
       if(msg.sender!=smartIDowner)throw;
       remote=Ethereal_Smart_ID(a);
-      if(!remote.addressVerified())throw;
+      if(!remote.addressVerified(addr))throw;
       validated.push(a);
       validatedWhat.push(0);
     }
 
-    function addressVerified(address a,string addr){
-      if(!pretorian.isSmartID())throw;
-      if(address!=addr)throw;
+    function addressVerified(string addr) returns (bool){
+      if(!pretorian.isSmartID(msg.sender))throw;
       checkaddress=true;
       validators.push(msg.sender);
       validatorsWhat.push(0);
+      return true;
     }
 
     function verifyEmail(address a,string addr){
@@ -119,12 +119,12 @@ contract Ethereal_Smart_ID {
       validatedWhat.push(1);
     }
 
-    function emailVerified(address a,string addr){
-      if(!pretorian.isSmartID())throw;
-      if(address!=addr)throw;
+    function emailVerified() returns (bool){
+      if(!pretorian.isSmartID(msg.sender))throw;
       checkemail=true;
       validators.push(msg.sender);
       validatorsWhat.push(1);
+            return true;
     }
 
     function verifyImage(address a,string addr){
@@ -135,13 +135,13 @@ contract Ethereal_Smart_ID {
       validatedWhat.push(2);
     }
 
-    function imageVerified(address a,string addr){
-      if(!pretorian.isSmartID())throw;
-      if(address!=addr)throw;
-      checkImage=true;
+    function imageVerified() returns (bool){
+      if(!pretorian.isSmartID(msg.sender))throw;
+      checkimage=true;
       checkimageamount++;
       validators.push(msg.sender);
       validatorsWhat.push(2);
+      return true;
     }
 
     function getValidator(uint v)constant returns(address,uint){
@@ -156,12 +156,13 @@ contract Ethereal_Smart_ID {
       return (wallets[w],wallets.length);
     }
 
-    function getInfo() constant returns(address,string,uint,string,uint,uin){
-      
+    function getInfo() constant returns(address,string,uint,string,uint,uint){
       return(smartIDowner,name,birthday,location,rating-((block.number-lastCheck)/60000),blackflags);
     }
 
-
+    function check() constant returns(bool,bool,bool,uint,uint,uint){
+      return(checkemail,checkaddress,checkimage,checkimageamount,lastImageUpdate,lastCheck);
+    }
 
 
     /* Send coins */
@@ -178,7 +179,7 @@ contract Ethereal_Smart_ID {
         returns (bool success) {
         if(msg.sender!=smartIDowner)throw;
         allowance[_spender] += _value;
-        allowances.push(_spender);
+        allowances.push(_value);
         return true;
     }
 
