@@ -3,7 +3,7 @@ contract smartIDRecipient { function receiveApproval(address _from, uint256 _val
 
 contract Ethereal_Smart_ID {
 
-
+    Ethereal_Smart_ID remote;
     address validating;
     address public smartIDowner;
 
@@ -24,10 +24,17 @@ contract Ethereal_Smart_ID {
     string public name;
     string public id;
     string public passport;
+    string public email;
     uint public birthday;
+    string public address;
     string public location;
     uint public blackflags;
-    uint rating;
+    uint rating; //depends on action
+
+    bool public checkemail;
+    bool public checkaddress;
+    bool public checkimage;
+    uint public checkimageamount;
 
     mapping (address => uint256) public balanceOf;
     mapping (address => uint256) public allowance;
@@ -86,6 +93,55 @@ contract Ethereal_Smart_ID {
          wallets[i]=wallets[wallets.length-1];
          wallets[wallets.length-1]=0x0;
       }
+    }
+
+    function verifyAddress(address a,string addr){
+      if(msg.sender!=smartIDowner)throw;
+      remote=Ethereal_Smart_ID(a);
+      if(!remote.addressVerified())throw;
+      validated.push(a);
+      validatedWhat.push(0);
+    }
+
+    function addressVerified(address a,string addr){
+      if(!pretorian.isSmartID())throw;
+      if(address!=addr)throw;
+      checkaddress=true;
+      validators.push(msg.sender);
+      validatorsWhat.push(0);
+    }
+
+    function verifyEmail(address a,string addr){
+      if(msg.sender!=smartIDowner)throw;
+      remote=Ethereal_Smart_ID(a);
+      if(!remote.emailVerified())throw;
+      validated.push(a);
+      validatedWhat.push(1);
+    }
+
+    function emailVerified(address a,string addr){
+      if(!pretorian.isSmartID())throw;
+      if(address!=addr)throw;
+      checkemail=true;
+      validators.push(msg.sender);
+      validatorsWhat.push(1);
+    }
+
+    function verifyImage(address a,string addr){
+      if(msg.sender!=smartIDowner)throw;
+      remote=Ethereal_Smart_ID(a);
+      if(!remote.imageVerified())throw;
+      validated.push(a);
+      validatedWhat.push(2);
+    }
+
+    function imageVerified(address a,string addr){
+      if(!pretorian.isSmartID())throw;
+      if(address!=addr)throw;
+      checkImage=true;
+      checkimageamount++;
+      validators.push(msg.sender);
+      validatorsWhat.push(2);
     }
 
     function getValidator(uint v)constant returns(address,uint){
