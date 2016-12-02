@@ -69,7 +69,7 @@ return temp;
 }
 
 
-function registerSmartID(string name,string id,string location) returns (bool){
+function registerEtherRealIÐ(string name,string id,string location) returns (bool){
 if(!isSmartID[msg.sender])throw;
 if(smartIDidCheck[id])throw;
 if(!checkRequest(name,id,location))throw;
