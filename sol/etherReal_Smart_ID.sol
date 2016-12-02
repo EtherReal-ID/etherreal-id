@@ -1,11 +1,11 @@
 contract smartIDRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData); }
 
-contract Ethereal_Smart_ID {
+contract etherReal-IÐ {
 
     AddressReg popa;
-    Ethereal_Smart_ID remote;
+    etherReal-IÐ remote;
     address validating;
-    address public smartIDowner;
+    address public etherRealIÐowner;
 
     Pretorian pretorian;
     address pa;
@@ -43,19 +43,27 @@ contract Ethereal_Smart_ID {
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    function Ethereal_Smart_ID(address validator,string name,string id,string passport){
+    function Ethereal_Smart_ID(address owner,address validator,string name,string id,bool entity){
+      etherRealIÐowner=owner;
       validators.push(validator);
       pretorian=Pretorian(msg.sender);
       popa=AddressReg(0xbad661c5a1970342ade69857689738b6c8d9da51);
-      pa=msg.sender;
+      pa=msg.sender; //pretorian address
+      ispopa=false;
       blackflags=0;
       rating=999999990; //negative number = -10
-      ispopa=false;
+      isEtherrealEntity=entity;
     }
 
-    function Validate(string name,string id,string passport){
-      if(msg.sender!=smartIDowner)throw;
-      if(!pretorian.registerSmartID(name,id,passport))throw;
+    function requestNewID(string name,string id,string location)returns(bool){
+    if(msg.sender!=etherRealIÐowner)throw;
+    if(!pretorian.requestNewID(name,id,location,true))throw;
+    return true;
+    }
+
+    function Validate(string name,string id,string location){
+      if(msg.sender!=etherRealIÐowner)throw;
+      if(!pretorian.registerSmartID(name,id,location))throw;
     }
 
     function addValidated(address a){
@@ -64,12 +72,12 @@ contract Ethereal_Smart_ID {
     }
 
     function addFamily(address a){
-      if(msg.sender!=smartIDowner)throw;
+      if(msg.sender!=etherRealIÐowner)throw;
       family.push(a);
     }
 
     function removeFamily(address a){
-      if(msg.sender!=smartIDowner)throw;
+      if(msg.sender!=etherRealIÐowner)throw;
       for(uint i=0;i<family.length;i++){
          if(family[i]==a)
          family[i]=family[family.length-1];
@@ -78,19 +86,19 @@ contract Ethereal_Smart_ID {
     }
 
     function addWallet(address a){
-      if((msg.sender!=smartIDowner)||(msg.sender!=waitingWallet)||(wallets.length>50))throw;
-      if(msg.sender==smartIDowner){
+      if((msg.sender!=etherRealIÐowner)||(msg.sender!=waitingWallet)||(wallets.length>50))throw;
+      if(msg.sender==etherRealIÐowner){
           waitingWallet=a;
       }
       if(msg.sender==waitingWallet){
-         if(!pretorian.registerWallet(waitingWallet,smartIDowner))throw;
+         if(!pretorian.registerWallet(waitingWallet,etherRealIÐowner))throw;
          wallets.push(waitingWallet); 
       }
     }
 
     function removeWallet(address a){
-      if(msg.sender!=smartIDowner)throw;
-      if(!pretorian.deleteWallet(a,smartIDowner))throw;
+      if(msg.sender!=etherRealIÐowner)throw;
+      if(!pretorian.deleteWallet(a,etherRealIÐowner))throw;
       for(uint i=0;i<wallets.length;i++){
          if(wallets[i]==a)
          wallets[i]=wallets[wallets.length-1];
@@ -106,7 +114,7 @@ contract Ethereal_Smart_ID {
     }
 
     function verifyAddress(address a,string addr){
-      if(msg.sender!=smartIDowner)throw;
+      if(msg.sender!=etherRealIÐowner)throw;
       remote=Ethereal_Smart_ID(a);
       if(!remote.addressVerified(addr))throw;
       validated.push(a);
@@ -122,7 +130,7 @@ contract Ethereal_Smart_ID {
     }
 
     function verifyEmail(address a,string addr){
-      if(msg.sender!=smartIDowner)throw;
+      if(msg.sender!=etherRealIÐowner)throw;
       remote=Ethereal_Smart_ID(a);
       if(!remote.emailVerified())throw;
       validated.push(a);
@@ -138,7 +146,7 @@ contract Ethereal_Smart_ID {
     }
 
     function verifyImage(address a,string addr){
-      if(msg.sender!=smartIDowner)throw;
+      if(msg.sender!=etherRealIÐowner)throw;
       remote=Ethereal_Smart_ID(a);
       if(!remote.imageVerified())throw;
       validated.push(a);
@@ -167,7 +175,7 @@ contract Ethereal_Smart_ID {
     }
 
     function getInfo() constant returns(address,string,uint,string,uint,uint){
-      return(smartIDowner,name,birthday,location,rating-((block.number-lastCheck)/60000),blackflags);
+      return(etherRealIÐowner,name,birthday,location,rating-((block.number-lastCheck)/60000),blackflags);
     }
 
     function check() constant returns(bool,bool,bool,uint,uint,uint){
@@ -177,17 +185,17 @@ contract Ethereal_Smart_ID {
 
     /* Send coins */
     function transfer(address _to, uint256 _value) {
-        if(msg.sender!=smartIDowner)throw;
-        if (balanceOf[smartIDowner] < _value) throw;           // Check if the smartIDowner has enough
+        if(msg.sender!=etherRealIÐowner)throw;
+        if (balanceOf[etherRealIÐowner] < _value) throw;           // Check if the etherRealIÐowner has enough
         if(!(_to.send(_value)))throw;
-        balanceOf[smartIDowner] -= _value;                     // Subtract from the smartIDowner
-        Transfer(smartIDowner, _to, _value);                   // Notify anyone listening that this transfer took place
+        balanceOf[etherRealIÐowner] -= _value;                     // Subtract from the etherRealIÐowner
+        Transfer(etherRealIÐowner, _to, _value);                   // Notify anyone listening that this transfer took place
     }
 
     /* Allow another contract to spend some tokens in your behalf */
     function approve(address _spender, uint256 _value)
         returns (bool success) {
-        if(msg.sender!=smartIDowner)throw;
+        if(msg.sender!=etherRealIÐowner)throw;
         allowance[_spender] += _value;
         allowances.push(_value);
         return true;
@@ -196,32 +204,33 @@ contract Ethereal_Smart_ID {
     /* Approve and then comunicate the approved contract in a single tx */
     function approveAndCall(address _spender, uint256 _value, bytes _extraData)
         returns (bool success) {
-        if(msg.sender!=smartIDowner)throw;
+        if(msg.sender!=etherRealIÐowner)throw;
         smartIDRecipient spender = smartIDRecipient(_spender);
         if (approve(_spender, _value)) {
-            spender.receiveApproval(smartIDowner, _value, this, _extraData);
+            spender.receiveApproval(etherRealIÐowner, _value, this, _extraData);
             return true;
         }
     }        
 
     /* A contract attempts to get the coins */
     function transferFrom(address _from, address _to, uint256 _value) returns (bool success) {
-        if (balanceOf[smartIDowner] < _value) throw;                 // Check if the smartIDowner has enough
+        if (balanceOf[etherRealIÐowner] < _value) throw;                 // Check if the etherRealIÐowner has enough
         if (_value > allowance[msg.sender]) throw;                   // Check allowance
-        balanceOf[smartIDowner] -= _value;                           // Subtract from the smartIDowner
+        balanceOf[etherRealIÐowner] -= _value;                           // Subtract from the etherRealIÐowner
         if(!(_to.send(_value)))throw;
         allowance[msg.sender] -= _value;
-        Transfer(smartIDowner, _to, _value);
+        Transfer(etherRealIÐowner, _to, _value);
         return true;
     }
 
 
     /* This unnamed function is called whenever someone tries to send ether to it */
     function () payable{
-        balanceOf[smartIDowner]+=msg.value;
-        Transfer(msg.sender, smartIDowner, msg.value);
+        balanceOf[etherRealIÐowner]+=msg.value;
+        Transfer(msg.sender, etherRealIÐowner, msg.value);
     }
 }
+
 
 contract AddressReg {
 
