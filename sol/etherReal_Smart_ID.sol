@@ -2,44 +2,44 @@ contract smartIDRecipient { function receiveApproval(address _from, uint256 _val
 
 contract etherReal-IÐ {
 
-    AddressReg popa;
-    etherReal-IÐ remote;
-    address validating;
-    address public etherRealIÐowner;
+    AddressReg             popa;
+    etherReal-IÐ           remote;
+    address                validating;
+    address         public etherRealIÐowner;
 
-    Pretorian pretorian;
-    address pa;
-    address waitingWallet;
+    Pretorian              pretorian;
+    address                pa;
+    address                waitingWallet;
 
-    address[] public validators;
-    uint[] public validatorsWhat;
-    address[] public validated;
-    uint[] public validatedWhat;
-    address[] public wallets;
-    address[] public family;
-    uint public lastImageUpdate;  //block number
-    uint public lastCheck;  //block number
+    address[]       public validators;
+    uint[]          public validatorsWhat;
+    address[]       public validated;
+    uint[]          public validatedWhat;
+    address[]       public wallets;
+    address[]       public family;
+    uint            public lastImageUpdate;  //block number
+    uint            public lastCheck;  //block number
 
-    string public standard = 'EtherRe.al 0.1';
-    string public name;
-    string public id;
-    string public passport;
-    string public email;
-    uint public birthday;
-    string public physicaladdress;
-    string public location;
-    uint public blackflags;
+    string          public standard = 'EtherRe.al 0.1';
+    string          public name;
+    string          public id;
+    string          public passport;
+    string          public email;
+    uint            public birthday;
+    string          public physicaladdress;
+    string          public location;
+    uint            public blackflags;
     uint rating; //depends on action
 
-    bool public checkemail;
-    bool public checkaddress;
-    bool public ispopa;     //consensys proof of physical address
-    bool public checkimage;
-    uint public checkimageamount;
+    bool            public checkemail;
+    bool            public checkaddress;
+    bool            public ispopa;     //consensys proof of physical address
+    bool            public checkimage;
+    uint            public checkimageamount;
 
     mapping (address => uint256) public balanceOf;
     mapping (address => uint256) public allowance;
-    uint[] public allowances;
+    uint[]          public allowances;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
@@ -56,9 +56,9 @@ contract etherReal-IÐ {
     }
 
     function requestNewID(string name,string id,string location)returns(bool){
-    if(msg.sender!=etherRealIÐowner)throw;
-    if(!pretorian.requestNewID(name,id,location,true))throw;
-    return true;
+      if(msg.sender!=etherRealIÐowner)throw;
+      if(!pretorian.requestNewID(name,id,location,true))throw;
+      return true;
     }
 
     function Validate(string name,string id,string location){
@@ -109,8 +109,8 @@ contract etherReal-IÐ {
     
     //consensys proof of physical address
     function checkpopa(){    
-    if(!popa.hasPhysicalAddress(this))throw;
-    ispopa=true;
+      if(!popa.hasPhysicalAddress(this))throw;
+      ispopa=true;
     }
 
     function verifyAddress(address a,string addr){
