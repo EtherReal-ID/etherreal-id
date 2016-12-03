@@ -1,14 +1,10 @@
 # etherReal
 
-Powered by - e t h e r u m - ether*real* is a **ÐAO**
-
-administered by its users
-in the interests of its users
+Powered by - e t h e r u m - ether*Real* is a *Self Sovereign* Identification Oracle - etherRe.al is Borderless, Distributed and Decentralised
 
 
-hack.ether.camp 2016 is fast approacing and etherre.al will be under intence development for the 5 weeks of the hackathon.  If you can code solidity / Java or have anything else to offer Please do join in if you can.
-
-Thanks
+In the future etherre.al will be administered by its users
+in the interests of its users.
 
 
 
@@ -20,11 +16,7 @@ Thanks
 
 
 
+We are developing the project as a team at hack.ether.camp 2016 
+In 2015 etherre.al was the leader of the pack at the code freeze but came 4th over all.
 
 
-
-
-
-
-
-ether*real* us an umbrella organisation for coordinating and developing ethereum Ðapps to put users in charge of their digital signifiers
