@@ -42,13 +42,14 @@
   "license": "",
   "jspm": {
     "dependencies": {
-      "aurelia-api": "npm:aurelia-api@^3.0.0"
+      "aurelia-api": "npm:aurelia-api@^3.0.0",
+      "fontawesome": "npm:fontawesome@^4.5.0"
     },
     "devDependencies": {
       "aurelia-animator-css": "npm:aurelia-animator-css@^1.0.0",
       "aurelia-bootstrapper": "npm:aurelia-bootstrapper@^1.0.0",
       "aurelia-fetch-client": "npm:aurelia-fetch-client@^1.0.0",
-      "aurelia-framework": "npm:aurelia-framework@^1.0.0",
+      "aurelia-framework": "npm:aurelia-framework@^1.0.7",
       "aurelia-history-browser": "npm:aurelia-history-browser@^1.0.0",
       "aurelia-loader-default": "npm:aurelia-loader-default@^1.0.0",
       "aurelia-logging-console": "npm:aurelia-logging-console@^1.0.0",

@@ -27,6 +27,7 @@ System.config({
     "bootstrap": "github:twbs/bootstrap@3.3.7",
     "fetch": "github:github/fetch@1.1.1",
     "font-awesome": "npm:font-awesome@4.6.3",
+    "fontawesome": "npm:fontawesome@4.5.0",
     "jquery": "npm:jquery@2.2.4",
     "text": "github:systemjs/plugin-text@0.0.8",
     "typescript": "npm:typescript@2.1.1",
@@ -370,6 +371,11 @@ System.config({
     },
     "npm:font-awesome@4.6.3": {
       "css": "github:systemjs/plugin-css@0.1.32"
+    },
+    "npm:fontawesome@4.5.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "http": "github:jspm/nodelibs-http@1.7.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:hash.js@1.0.3": {
       "inherits": "npm:inherits@2.0.1"

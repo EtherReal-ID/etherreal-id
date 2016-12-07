@@ -1,17 +1,66 @@
+import {Configure as configure_aur} from "aurelia-configuration";
+import {inject} from 'aurelia-framework';
+import {Config} from 'aurelia-api';
 
+@inject(Config)
+export class App
+{
+    heading: string;
+    apiEndpoint: any;
+    public firstname: string;
+    public middlename: string;
+    public lastname: string;
+    public users: any;
 
-export class App {
-    constructor() {
+    constructor(config: Config) {        
         this.heading = 'Welcome to etherReal ID!';
-        this.firstName = 'Ether';
-        this.lastName = 'Real';
+        this.firstname = 'Ether';
+        this.lastname = 'Real';
+
+        this.apiEndpoint = config.getEndpoint('api');
+
+        
+        //this.welcome();
     }
-    get fullName() {
-        return `${this.firstName} ${this.lastName}`;
+
+    public get fullname() : string
+    {
+        return `${this.firstname} ${this.middlename} ${this.lastname}`;
     }
-    welcome() {
-        alert(`Welcome, ${this.fullName}!`);
+
+    welcome() : void
+    {
+        this.apiEndpoint.find('user')
+        .then(user => {
+            //alert(`Users = ${user[0]}`);
+            this.users = user;
+        // use your received users.json
+        })
+        .catch(console.error);
+
+        alert(`Welcome, ${this.fullname}`);
     }
+
+
 }
 
-new App().welcome()
+// export class App {
+
+// @inject(Configure)
+// constructor(config) {
+//         this.heading = 'Welcome to etherReal ID!';
+//         this.firstName = 'Ether';
+//         this.lastName = 'Real';
+//         this.config = config;
+        
+//     }
+//     get fullName() {
+//         return `${this.firstName} ${this.lastName}`;
+//     }
+//     welcome() {
+//         alert(`Welcome, ${this.fullName}!`);
+//     }
+// }
+
+// new App().welcome()
+
