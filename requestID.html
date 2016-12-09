@@ -1,221 +1,209 @@
-<!doctype>
+
+<!DOCTYPE html>
 <html>
+    <head lang="en">
 
-<head>
-<script type="text/javascript" src="http://arkdao.com/web3.js"></script>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/ui-darkness/jquery-ui.css" rel="stylesheet" type="text/css"/>
-<script src="http://arkdao.com/blockies-master/blockies.js"></script>
-<script type="text/javascript" src="etherrealdep.js"></script>
+      <title>requestID</title>
 
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+      <script type="text/javascript" src="http://arkdao.com/web3.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+      <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/ui-darkness/jquery-ui.css" rel="stylesheet" type="text/css"/>
+      <script src="http://arkdao.com/blockies-master/blockies.js"></script>
+      <script type="text/javascript" src="etherrealdep.js"></script>
 
+      <link rel="stylesheet" href="styles/main.css"/>
+      <link rel="stylesheet" href="styles/nick.css"/>
+      <style>
+         #walletico{
+         width: 40px;
+         height: 40px;
+         background-size: cover;
+         background-repeat: no-repeat;
+         border-radius: 50%;
+         box-shadow: inset rgba(255, 255, 255, 0.6) 0 2px 2px, inset rgba(0, 0, 0, 0.3) 0 -2px 6px;
+         }
+      </style>
+      <script>
+            //$(document).ready(function (){
+            window.addEventListener('load', function () {
+                // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+                if (typeof web3 !== 'undefined') { // Use Mist/MetaMask's provider
+                    web3 = new Web3(web3.currentProvider);
+                    $("#problem").hide();
+                } else {
+                    console.log('No web3? You should consider trying MetaMask! In 2016 it\'s only for chrome');
+                    alert("No web3? Try the MetaMask! plugin for your browser.  In 2016 that means using chrome");
+                    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+                    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+                }
+                // Now you can start your app & access web3 freely:
+            });
 
+        var selectedwallet = 0; <
+        /script> <
+        script type = 'text/javascript' >
+            $(document).ready(function () {
+                checkWallet();
+                reloadWallet();
+            });
 
-<style>
-#walletico{
- width: 40px;
-    height: 40px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-radius: 50%;
-    box-shadow: inset rgba(255, 255, 255, 0.6) 0 2px 2px, inset rgba(0, 0, 0, 0.3) 0 -2px 6px;
-}
-
-</style>
-<script>
-//$(document).ready(function (){
-
-window.addEventListener('load', function() {
-
-  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-  if (typeof web3 !== 'undefined') {
-    // Use Mist/MetaMask's provider
-    web3 = new Web3(web3.currentProvider);
-$("#problem").hide();
-  } else {
-    console.log('No web3? You should consider trying MetaMask!');
-alert("No web3? You should consider trying MetaMask!");
-    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-  }
-
-  // Now you can start your app & access web3 freely:
- 
-
-});
-
-
-
-
-var selectedwallet=0;
-
-
-
-
-</script>
-<script type='text/javascript'>
-
- 
-     $(document).ready(function (){
-
-
-
-checkWallet();
-
-reloadWallet();
-
-
-
-   });
-
- function  reloadWallet(){
-        selectedwallet=$("#wallets").val();web3.eth.defaultAccount = web3.eth.accounts[selectedwallet];checkWallet();//listMyCoins();
+        function reloadWallet() {
+            selectedwallet = $("#wallets").val();
+            web3.eth.defaultAccount = web3.eth.accounts[selectedwallet];
+            checkWallet(); //listMyCoins();
         }
 
-
-function checkWallet(){
-		var accounts = web3.eth.accounts;
-
-		if(accounts.length>0){
-			
-                    
-                        if($("#wallets").html()==""){
-                          for(var i=0;i<accounts.length;i++)$("#wallets").append('<option value="'+i+'">'+accounts[i]+'</option>');
-                        }
-                       
-  selectedwallet=$("#wallets").val();
-  web3.eth.getBalance(web3.eth.accounts[selectedwallet],function(err,data){
-if(err)console.log("Error: "+err);
-var temp=""+web3.fromWei(data, "ether");
- $("#balance").text("Wallet: "+temp.substring(0, 8)+" ETH");
-
-});
-                          //   var temp=""+web3.fromWei(web3.eth.getBalance(web3.eth.accounts[selectedwallet]), "ether");
-  
-                        //$("#balance").text("Wallet: "+temp.substring(0, 8)+" ETH");
- 
-                        createIcon("#walletico",web3.eth.accounts[selectedwallet]);
-			//loadCoinsList();
- 
-		}else{
-			
-			$("#noWalletAlert").show();
-                        $("#my-coins").hide();
-
-		}
-		
-}
+        function checkWallet() {
+            var accounts = web3.eth.accounts;
+            if (accounts.length > 0) {
 
 
-function createIcon(divid,addr){
+                if ($("#wallets").html() == "") {
+                    for (var i = 0; i < accounts.length; i++) $("#wallets").append('<option value="' + i + '">' + accounts[i] + '</option>');
+                }
 
+                selectedwallet = $("#wallets").val();
+                web3.eth.getBalance(web3.eth.accounts[selectedwallet], function (err, data) {
+                    if (err) console.log("Error: " + err);
+                    var temp = "" + web3.fromWei(data, "ether");
+                    $("#balance").text("Wallet: " + temp.substring(0, 8) + " ETH");
+                });
+                //   var temp=""+web3.fromWei(web3.eth.getBalance(web3.eth.accounts[selectedwallet]), "ether");
 
-        var icona = 'url(' + blockies.create({ seed:addr ,size: 8,scale: 16}).toDataURL()+')';
-        
-        $(divid).css('background-image' , icona);
-}
+                //$("#balance").text("Wallet: "+temp.substring(0, 8)+" ETH");
 
-</script>
+                createIcon("#walletico", web3.eth.accounts[selectedwallet]);
+                //loadCoinsList();
+            } else {
+                $("#noWalletAlert").show();
+                $("#my-coins").hide();
+            }
 
+        }
 
-<script>
+        function createIcon(divid, addr) {
+            var icona = 'url(' + blockies.create({
+                seed: addr,
+                size: 8,
+                scale: 16
+            }).toDataURL() + ')';
 
-$(document).ready(function (){
+            $(divid).css('background-image', icona);
+        } 
+        </script> 
 
+        <script>
+            $(document).ready(function () {
+                $("#create").click(function () {
 
+                    create_request();
 
-     $("#create").click(function(){
-        
-      create_request();
-          
-     });
+                });
+            });
 
-});
+        function create_request() {
+            contracts['Pretorian'].contract.requestNewEtherRealID($("#name").val(), $("#id").val(), $("#location").val(), false, {
+                from: web3.eth.accounts[selectedwallet]
+            }, function (error, transactionHash) {
+                if (error) alert("Error: " + error);
+                console.log(error);
+                setMsg("orange", "your transaction: <a href='http://testnet.etherscan.io/tx/" + transactionHash + "' target='_blank'>" + transactionHash + "</a>", "start");
+                //checkTransaction(data,"setCoin",1);
+            });
+        }
 
-    
+        function setMsg(color, msg, action) {
 
+            if (color == "green") {
+                $("#msg").css({
+                    "border": "solid 1px #afa",
+                    "background": "#dfd"
+                });
+                $("#msgclose").css("color", "#green");
+                $("#msgclose").show();
+            }
+            if (color == "red") {
+                $("#msg").css({
+                    "border": "solid 1px #faa",
+                    "background": "#fdd"
+                });
+                $("#msgclose").css("color", "#red");
+                $("#msgclose").show();
+            }
+            if (color == "orange") {
+                $("#msg").css({
+                    "border": "solid 1px #FFAE00",
+                    "background": "#FFD16E"
+                });
+                $("#msgclose").css("color", "#orange");
+                $(".jump").hide();
+                $("#msgclose").show();
+            }
 
-function create_request(){
+            $("#msgcnt").html(msg);
+            if (action == "start") {
+                $("#loading").show();
+            }
+            if (action == "stop") {
+                $("#loading").hide();
+            }
+            $("#msg").show();
 
-contracts['Pretorian'].contract.requestNewEtherRealID($("#name").val(),$("#id").val(),$("#location").val(),false,{from:web3.eth.accounts[selectedwallet]},function(error, transactionHash) {
-if(error)alert("Error: "+error);
-console.log(error);
+        } 
+      </script>
+   </head>
 
-
-setMsg("orange","your transaction: <a href='http://testnet.etherscan.io/tx/"+transactionHash+"' target='_blank'>"+transactionHash+"</a>","start");
-//checkTransaction(data,"setCoin",1);
-
-});
-
-}
-
-
-
-
-
-
-function setMsg(color,msg,action){
-
-                
-		if(color=="green"){$("#msg").css({"border":"solid 1px #afa","background":"#dfd"});$("#msgclose").css("color","#green");$("#msgclose").show();}
-		if(color=="red"){$("#msg").css({"border":"solid 1px #faa","background":"#fdd"});$("#msgclose").css("color","#red");$("#msgclose").show();}
-		if(color=="orange"){$("#msg").css({"border":"solid 1px #FFAE00","background":"#FFD16E"});$("#msgclose").css("color","#orange");$(".jump").hide();$("#msgclose").show();}
-		
-		$("#msgcnt").html(msg);
-		if(action=="start"){$("#loading").show();}
-	        if(action=="stop"){$("#loading").hide();}
-		$("#msg").show();
-		
-	}
-
-
-
-</script>
-
-</head>
-<body bgcolor='#E1EEF2' style='	 onload=""  background-size: 600px 500px;background-image:urlt("http://s32.postimg.org/c2gw6yi91/Metal_galvanised_steel_tin_texture_ver2_4770x317.jpg"); height: 130px;'>
-
-
-<div id="hometab" class="tab display" style=""><div class="subcontainer">
-<div class="label">Name:</div>
-<input id="name" type="text" class="input">
-<div class="label">ID Card:</div>
-<input id="id" type="text" class="input">
-<div class="label">Location:</div>
-<input id="location" type="text" class="input"><br>
-<input id="create" type="submit" class="buttonSubmit" style="margin-top: 30px;" value="REQUEST EtherrealID">
-</div></div>
-
-<br><br>
-<div id="msg" class="display" style="display: none; padding: 20px;"><div id="loading" style="float: left; width: 40px; height: 40px;background-image:url('http://andrea.overgrid.com/loading.gif');background-size: 40px;"></div><div id="msgcnt" style="float: left;margin-left: 20px; margin-top: 8px;">Message</div><input id="msgclose" style="float: right;margin-right: 0px;margin-left: 20px;  margin-top: 8px;" type="submit" class="buttonSubmit" value="Hide"></input>
-<div style="clear:both"></div>
-</div>
-<br><br>
-<!--   start wallet  -->
-
-<div id="my-coins" class='display' style='margin: 20px 20px 20px 20px; margin-left: 20px;float:left; width: calc(100% - 40px);padding-bottom: 20px;'>	
-<div style="padding: 20px;">
-			<div id="noWalletAlert" style="color: red; display: none;float: left;">No Wallet Connected</div>
-
-                        <div style="float: left; width: 100%;">
-		           <div id="walletico" class="walleticon" style="float: left;  margin-right: 10px; margin-top: 2px;"></div><select id="wallets" name="wallets" style="float: left; margin-left: 10px; font-size: 28px; padding: 5px; "></select>
-
-
-<button onclick='reloadWallet()'  title='REFRESH WALLET' class='inb2' style='padding:5px;  float: right; margin-right: 0px; margin-left: 10px;'><img src="reload.png" style="width: 33px; "></button><div style="clear: both;"></div>
-<div style="color: grey; font-size: 28px; margin-top: 30px;; margin-left: 10px; float: left;">Your Coins:</div>
-<div id="balance" style="color: grey; font-size: 28px; margin-top: 30px; margin-left: 10px; float: right;">Balance:</div>
-
-                            <div id="ownedCoins" style="color: orange; margin-top: 10px; margin-bottom: 0px; border-radius: 5px; margin-left: 0px; padding-top: 0px; height: auto; background: white none repeat scroll 0% 0%; box-shadow: 0px 1px 6px rgb(153, 153, 153) inset; width: 100%;
--webkit-box-shadow: inset 0px 1px 6px #999;
--moz-box-shadow: inset 0px 1px 6px #999;
--o-box-shadow: inset 0px 1px 6px #999;
-float: left;"></div>
-                        </div> </div>
-			
-		        <div style="clear: both;"></div>
-		</div><div style="clear: both;"></div>
-<div id="problem" class="display" style="padding: 0px; margin: 20px; width: calc(100% - 40px); margin-bottom: 40px;"><div style="color: red; padding: 20px;">YOU HAVE SOME PROBLEMS &#9760; THIS IS A DECENTRALIZED APPLICATION BUILT UPON ETHEREUM. YOU NEED THE BLOCKCHAIN!</div></div>
-</body>
+   
+   <body bgcolor='#E1EEF2' style='	 onload=""  background-size: 600px 500px;background-image:urlt("http://s32.postimg.org/c2gw6yi91/Metal_galvanised_steel_tin_texture_ver2_4770x317.jpg"); height: 130px;'>
+      <div id="hometab" class="tab display" style="">
+         <div class="subcontainer">
+            <div class="label">Name:</div>
+            <input id="name" type="text" class="input">
+            <div class="label">ID Card:</div>
+            <input id="id" type="text" class="input">
+            <div class="label">Location:</div>
+            <input id="location" type="text" class="input"><br>
+            <input id="create" type="submit" class="buttonSubmit" style="margin-top: 30px;" value="REQUEST EtherrealID">
+         </div>
+      </div>
+      <br><br>
+      <div id="msg" class="display" style="display: none; padding: 20px;">
+         <div id="loading" style="float: left; width: 40px; height: 40px;background-image:url('http://andrea.overgrid.com/loading.gif');background-size: 40px;"></div>
+         <div id="msgcnt" style="float: left;margin-left: 20px; margin-top: 8px;">Message</div>
+         <input id="msgclose" style="float: right;margin-right: 0px;margin-left: 20px;  margin-top: 8px;" type="submit" class="buttonSubmit" value="Hide"></input>
+         <div style="clear:both"></div>
+      </div>
+      <br><br>
+      <!--   start wallet  -->
+      <div id="my-coins" class='display' style='margin: 20px 20px 20px 20px; margin-left: 20px;float:left; width: calc(100% - 40px);padding-bottom: 20px;'>
+         <div style="padding: 20px;">
+            <div id="noWalletAlert" style="color: red; display: none;float: left;">No Wallet Connected</div>
+            <div style="float: left; width: 100%;">
+               <div id="walletico" class="walleticon" style="float: left;  margin-right: 10px; margin-top: 2px;"></div>
+               <select id="wallets" name="wallets" style="float: left; margin-left: 10px; font-size: 28px; padding: 5px; "></select>
+               <button onclick='reloadWallet()'  title='REFRESH WALLET' class='inb2' style='padding:5px;  float: right; margin-right: 0px; margin-left: 10px;'><img src="reload.png" style="width: 33px; "></button>
+               <div style="clear: both;"></div>
+               <div style="color: grey; font-size: 28px; margin-top: 30px;; margin-left: 10px; float: left;">Your Coins:</div>
+               <div id="balance" style="color: grey; font-size: 28px; margin-top: 30px; margin-left: 10px; float: right;">Balance:</div>
+               <div id="ownedCoins" style="color: orange; margin-top: 10px; margin-bottom: 0px; border-radius: 5px; margin-left: 0px; padding-top: 0px; height: auto; background: white none repeat scroll 0% 0%; box-shadow: 0px 1px 6px rgb(153, 153, 153) inset; width: 100%;
+                  -webkit-box-shadow: inset 0px 1px 6px #999;
+                  -moz-box-shadow: inset 0px 1px 6px #999;
+                  -o-box-shadow: inset 0px 1px 6px #999;
+                  float: left;">
+               </div>
+            </div>
+         </div>
+         <div style="clear: both;"></div>
+      </div>
+      <div style="clear: both;"></div>
+      <div id="problem" class="display" style="padding: 0px; margin: 20px; width: calc(100% - 40px); margin-bottom: 40px;">
+         <div style="color: red; padding: 20px;">YOU HAVE SOME PROBLEMS &#9760; THIS IS A DECENTRALIZED APPLICATION BUILT UPON ETHEREUM. YOU NEED THE BLOCKCHAIN!</div>
+      </div>
+   </body>
 </html>
